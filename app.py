@@ -15,6 +15,14 @@ def home():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+	if request.method == 'POST':
+		username = request.form.get("username")
+		email = request.form.get("email")
+		password = request.form.get("password")
+		confirm_password = request.form.get("confirm_password")
+
+		if password == confirm_password:
+			pass
 	return render_template("register.html", title="Registration Page")
 
 
