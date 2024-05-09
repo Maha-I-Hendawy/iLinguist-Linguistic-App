@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session 
-
+import nltk
 
 
 app = Flask(__name__, instance_relative_config=True)
@@ -32,18 +32,35 @@ def logout():
 
 
 
-
+words = []
+sentences = []
 
 @app.route('/words', methods=['GET', 'POST'])
-def words():
-	return render_template("words.html", title="Words Page")
+def word():
+	if request.method == 'POST':
+		text = str(request.form.get('words'))
+		words1 = nltk.word_tokenize(text)
+		for word in words1:
+			if word == '.':
+				words1.remove(word)
+		tagged = nltk.pos_tag(words1)
+		words.append(tagged)
+		return redirect(request.url)
+
+
+	return render_template("words.html", title="Words Page", words=words)
 
 
 
 
 @app.route('/sentences', methods=['GET', 'POST'])
-def sentences():
-	return render_template("sentences.html", title="Sentences Page")
+def sentence():
+	if request.method == 'POST':
+		text = str(request.form.get('sentences'))
+		sentences1 = nltk.sent_tokenize(text)
+		sentences.append(sentences1)
+		return redirect(request.url)
+	return render_template("sentences.html", title="Sentences Page", sentences=sentences)
 
 
 

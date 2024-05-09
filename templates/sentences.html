@@ -3,5 +3,22 @@
 {% block content %}
 
   <h1>Sentences Page</h1>
+  <form action="" method="post">
+    <textarea name="sentences" placeholder="Type some text here..."></textarea>
+    <input type="submit" value="Sentences">
+  </form>
+  <br>
+  <br>
+  <br>
+  <ul>
+    {% for sentence in sentences %}
+       {% for s in sentence %}
+         <li>{{ s }}</li>
+       {% endfor %}
+
+    {% endfor %}
+
+    
+  </ul>
 
 {%  endblock %}

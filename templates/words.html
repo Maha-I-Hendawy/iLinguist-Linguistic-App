@@ -3,5 +3,19 @@
 {% block content %}
 
   <h1>Words Page</h1>
+  <form action="" method="post">
+    <textarea name="words" placeholder="Type some text here..."></textarea>
+    <input type="submit" value="Words">
+  </form>
+  <br>
+  <br>
+  <br>
+  <ul style="list-style-type: none;">
+    {% for word in words %}
+       {% for w in word %}
+         <li style="float: left; padding: 20px">{{w[0]}}: <b>{{w[1]}}</b></li>
+       {% endfor %}
+    {% endfor %}
+  </ul>
 
 {%  endblock %}
