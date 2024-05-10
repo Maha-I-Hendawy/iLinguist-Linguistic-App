@@ -38,7 +38,9 @@ class Text(db.Model):
 		return f"{self.text}"
 
 
+words = []
 
+sentences = []
 
 
 
@@ -83,7 +85,7 @@ def login():
 		user = User.query.filter_by(username=username).first()
 
 		if user and check_password_hash(user.password, password):
-			session["user"] = user.username
+			session["user"] = user.user_id
 			flash(f"Welcome {user.username}")
 			return redirect(url_for('profile'))
 
@@ -105,40 +107,51 @@ def logout():
 @app.route('/profile')
 def profile():
 	if 'user' in session:
-		return render_template("profile.html")
+		user_id = session['user']
+		user = User.query.filter_by(user_id=user_id).first()
+		return render_template("profile.html", user=user)
 	else:
 		return redirect(url_for('login'))
 
 
-words = []
-sentences = []
+
 
 @app.route('/words', methods=['GET', 'POST'])
 def word():
-	if request.method == 'POST':
-		text = str(request.form.get('words'))
-		words1 = nltk.word_tokenize(text)
-		for word in words1:
-			if word == '.':
-				words1.remove(word)
-		tagged = nltk.pos_tag(words1)
-		words.append(tagged)
-		return redirect(request.url)
+	if 'user' in session:
+
+		if request.method == 'POST':
+			text = str(request.form.get('words'))
+			words1 = nltk.word_tokenize(text)
+			for word in words1:
+				if word == '.':
+					words1.remove(word)
+			tagged = nltk.pos_tag(words1)
+			words.append(tagged)
+			return redirect(request.url)
 
 
-	return render_template("words.html", title="Words Page", words=words)
+		return render_template("words.html", title="Words Page", words=words)
+
+	else:
+		return redirect(url_for('login'))
 
 
 
 
 @app.route('/sentences', methods=['GET', 'POST'])
 def sentence():
-	if request.method == 'POST':
-		text = str(request.form.get('sentences'))
-		sentences1 = nltk.sent_tokenize(text)
-		sentences.append(sentences1)
-		return redirect(request.url)
-	return render_template("sentences.html", title="Sentences Page", sentences=sentences)
+	if 'user' in session:
+
+		if request.method == 'POST':
+			text = str(request.form.get('sentences'))
+			sentences1 = nltk.sent_tokenize(text)
+			sentences.append(sentences1)
+			return redirect(request.url)
+		return render_template("sentences.html", title="Sentences Page", sentences=sentences)
+
+	else:
+		return redirect(url_for('login'))
 
 
 

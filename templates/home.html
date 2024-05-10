@@ -2,13 +2,22 @@
 
 {% block content %}
 <div class="jumbotron text-center">
-  <h1>Home Page</h1>
-  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-  </p>
-  <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a>
-  <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+  {% if 'user' in session %}
+     <h1>Home Page</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    </p>
+  {% else %}
+      <h1>Home Page</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      </p>
+      <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a>
+      <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
+  {% endif %}
+ 
   
 </div>
  
