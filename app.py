@@ -14,6 +14,8 @@ db = SQLAlchemy(app)
 app.app_context().push()
 
 
+
+
 class User(db.Model):
 	user_id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(100), nullable=False, unique=True)
@@ -36,6 +38,9 @@ class Text(db.Model):
 
 	def __str__(self):
 		return f"{self.text}"
+
+
+
 
 
 words = []
